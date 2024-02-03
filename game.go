@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 )
 
 type Game struct {
@@ -19,10 +20,29 @@ func initializeGame(rows, cols int) *Game {
 	return &Game{board: board}
 }
 
-func (game *Game) randomizeBoard() {
-	game.board[1][2] = true
-	game.board[1][1] = true
-	game.board[1][0] = true
+func (game *Game) generateBoard(mode GameMode) {
+
+	switch mode {
+	case I:
+		game.board[1][2] = true
+		game.board[1][1] = true
+		game.board[1][0] = true
+	case Random:
+		for i := range game.board {
+			for j := range game.board[i] {
+				if rand.Int()%2 == 0 {
+					game.board[i][j] = true
+				}
+			}
+		}
+	case Toad:
+		game.board[0][4] = true
+		game.board[1][4] = true
+		game.board[1][3] = true
+		game.board[2][4] = true
+		game.board[2][3] = true
+		game.board[3][3] = true
+	}
 }
 
 func (game *Game) print() {
@@ -31,7 +51,12 @@ func (game *Game) print() {
 
 	for i := range game.board {
 		for j := range game.board[i] {
-			fmt.Print(game.board[i][j], " ")
+			if game.board[i][j] {
+				fmt.Print("X ")
+			} else {
+				fmt.Print("  ")
+			}
+
 		}
 		fmt.Println()
 	}

@@ -15,7 +15,7 @@ func main() {
 
 	game := initializeGame(rows, cols)
 
-	game.randomizeBoard()
+	game.generateBoard(Toad)
 
 	for {
 		game.print()
